@@ -66,7 +66,7 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <iostream.h>
+#include <iostream>
 #include "tools.h"
 #include "image.h"
 #include "rootdirentry.h"

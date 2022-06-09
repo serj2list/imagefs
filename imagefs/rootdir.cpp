@@ -47,7 +47,7 @@ unsigned int CRootDir::freesize()
   int i;
   int iOldPos;
   int iResult = 0;
-  unsigned char c;
+  char c;
 
   iOldPos = pStream->tellp();
 
@@ -72,7 +72,7 @@ bool CRootDir::put (char *pcFilename, unsigned int iClusterNr, unsigned int iFil
   unsigned int i;
   unsigned int j;
   int iOldPos;
-  unsigned char c;
+  char c;
 
   // find spot
   for (i=0; i<(ROOTDIRSIZE*SECTSIZE) / ROOTDIRENTRYSIZE; i++)

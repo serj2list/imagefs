@@ -25,8 +25,8 @@
 
 #include <string.h>
 #include "defs.h"
-#include <fstream.h>
-
+#include <fstream>
+using namespace std;
 
 
 class CRootDirEntry

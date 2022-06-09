@@ -19,11 +19,11 @@
 
 
 
-CFat::CFat(fstream *theStream)
+CFat::CFat(std::fstream *theStream)
 {
   // Connect CFat object to file stream
   pStream = theStream;
-  cout << "Mapping FAT table. " << endl;
+  std::cout << "Mapping FAT table. " << std::endl;
 }
 
 CFat::~CFat()
@@ -93,7 +93,7 @@ unsigned short CFat::getmark (unsigned int iCluster, bool bDebug)
 
   // Calculate location of cluster mark in bits
   iBits = iCluster * 12;
-  if (bDebug) cout << dec << "[" << iCluster << "]" << " ";
+  if (bDebug) std::cout << std::dec << "[" << iCluster << "]" << " ";
 
   iResult = (getbyte (iBits / 8)) | ((getbyte (iBits / 8 + 1)) << 8);
 
@@ -101,14 +101,14 @@ unsigned short CFat::getmark (unsigned int iCluster, bool bDebug)
   {
     // update this byte and the next
     iResult = iResult & 0x0FFF;
-    if (bDebug) cout << "+" << hex << iResult << " ";
+    if (bDebug) std::cout << "+" << std::hex << iResult << " ";
     return iResult;
   }
   else // offset at end of a byte
   {
     // update this byte and the previous byte
     iResult = (iResult >> 4);
-    if (bDebug) cout << "-" << hex << iResult << " ";
+    if (bDebug) std::cout << "-" << std::hex << iResult << " ";
     return iResult;
   }
 }
@@ -155,9 +155,9 @@ int CFat::firstfree()
 // put byte at iOffset from beginning of FAT
 void CFat::putbyte (unsigned int iOffset, unsigned char c)
 {
-  pStream->seekg (SECTSIZE + iOffset, ios::beg);
+  pStream->seekg (SECTSIZE + iOffset, std::ios::beg);
   pStream->put (c);
-  pStream->seekg (10*SECTSIZE + iOffset, ios::beg);
+  pStream->seekg (10*SECTSIZE + iOffset, std::ios::beg);
   pStream->put (c);
   pStream->flush();
 }
@@ -165,9 +165,9 @@ void CFat::putbyte (unsigned int iOffset, unsigned char c)
 // get byte at iOffset from beginning of FAT
 unsigned char CFat::getbyte (unsigned int iOffset)
 {
-  unsigned char c;
+  char c;
 
-  pStream->seekg (SECTSIZE + iOffset, ios::beg);
+  pStream->seekg (SECTSIZE + iOffset, std::ios::beg);
   pStream->get (c);
   return c;
 }

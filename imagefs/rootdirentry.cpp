@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 #include "rootdirentry.h"
-
+using namespace std;
 
 CRootDirEntry::CRootDirEntry()
 {
@@ -31,7 +31,7 @@ CRootDirEntry::~CRootDirEntry()
 }
 
 
-void CRootDirEntry::clear (fstream *theStream)
+void CRootDirEntry::clear (std::fstream *theStream)
 {
   int i;
 
@@ -39,20 +39,23 @@ void CRootDirEntry::clear (fstream *theStream)
     theStream->put((unsigned char) 0);
 }
 
-void CRootDirEntry::read (fstream *theStream)
+void CRootDirEntry::read (std::fstream *theStream)
 {
   int i;
   unsigned char *pData;
-
+char zuzu;
   pData = (unsigned char *) &data;
+//  pData = (unsigned char *) zuzu;
   for (i=0; i<sizeof(data); i++)
   {
-    theStream->get (*pData);
-    pData++;
+//   theStream->get (*pData);
+   theStream->get (zuzu);
+   pData[i] = zuzu;
+ //   pData++;
   }
 }
 
-void CRootDirEntry::write (fstream *theStream)
+void CRootDirEntry::write (std::fstream *theStream)
 {
   int i;
   unsigned char *pData;

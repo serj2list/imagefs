@@ -23,7 +23,7 @@
   *@author Alex van Oostenrijk
   */
 
-#include <fstream.h>
+#include <fstream>
 #include "string.h"
 #include "tools.h"
 #include "defs.h"
@@ -49,7 +49,7 @@ public:
 private:
   CFat *pFat;
   CRootDir * pRootDir;
-  fstream fStream;         // r/w stream to image file
+  std::fstream fStream;         // r/w stream to image file
   unsigned int iSize;      // image size in sectors
 };
 

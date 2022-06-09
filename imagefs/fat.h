@@ -24,12 +24,13 @@
   */
 
 #include "defs.h"
-#include <fstream.h>
+#include <fstream>
+#include <iostream>
 
 class CFat
 {
 public:
-  CFat (fstream *theStream);
+  CFat (std::fstream *theStream);
   ~CFat();
 
   void clear();
@@ -44,7 +45,7 @@ private:
   void putbyte (unsigned int iOffset, unsigned char c);
   unsigned char getbyte (unsigned int iOffset);
 
-  fstream *pStream;
+  std::fstream *pStream;
 };
 
 

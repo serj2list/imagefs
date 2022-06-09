@@ -62,17 +62,17 @@ CImage::CImage(char *pcFilename, bool bCreate) // throws 0
 {
   // Open file. If bCreate then create it as necessary;
   if (bCreate)
-    fStream.open (pcFilename, ios::in | ios::out | ios::binary);
+    fStream.open (pcFilename, std::ios::in | std::ios::out | std::ios::binary);
   else
-    fStream.open (pcFilename, ios::in | ios::out | ios::binary | ios::nocreate);
+    fStream.open (pcFilename, std::ios::in | std::ios::out | std::ios::binary );
 
   if (!fStream) throw (0);
 
   // Find out what the stream size is
-  fStream.seekg (0, ios::end);
+  fStream.seekg (0, std::ios::end);
   iSize = fStream.tellp() / SECTSIZE;
 
-  fStream.seekg (0, ios::beg);
+  fStream.seekg (0, std::ios::beg);
 
   // Connect FAT table
   pFat = new CFat (&fStream);
@@ -200,31 +200,31 @@ bool CImage::writeBootSector (char *pcFilename)
   char c;
 
   // Attempt to open boot sector input file
-  fstream ff;
-  ff.open (pcFilename, ios::in | ios::binary | ios::nocreate);
+  std::fstream ff;
+  ff.open (pcFilename, std::ios::in | std::ios::binary);
   if (!ff)
   {
-    cout << "Fatal: could not open boot sector input file." << endl;
+    std::cout << "Fatal: could not open boot sector input file." << std::endl;
     return false;
   }
 
   // Find out size of boot sector input file
-  ff.seekg (0, ios::end);
+  ff.seekg (0, std::ios::end);
   iSize = ff.tellp();
-  ff.seekg (0, ios::beg);
+  ff.seekg (0, std::ios::beg);
 
   // Determine if boot sector input file is large enough
   if (iSize < SECTSIZE)
   {
-    cout << "Fatal: boot sector file size must be at least " << SECTSIZE << " bytes." << endl;
+    std::cout << "Fatal: boot sector file size must be at least " << SECTSIZE << " bytes." << std::endl;
     ff.close();
     return false;
   }
 
   if (iSize > SECTSIZE)
   {
-    cout << "Warning: boot sector file (" << iSize << " bytes) is larger than one sector (" << SECTSIZE << " bytes)." << endl;
-    cout << "- skipping excess bytes." << endl;
+    std::cout << "Warning: boot sector file (" << iSize << " bytes) is larger than one sector (" << SECTSIZE << " bytes)." << std::endl;
+    std::cout << "- skipping excess bytes." << std::endl;
   }
 
   // Copy boot sector into image
@@ -302,7 +302,7 @@ char *extractFilename (char *pcPath)
 
 bool CImage::addFile (char *pcFilename)
 {
-  fstream ff;
+  std::fstream ff;
   unsigned int iFileSizeBytes;
   unsigned int iFileSizeSectors;
   char acSector[SECTSIZE];
@@ -311,10 +311,10 @@ bool CImage::addFile (char *pcFilename)
   int iStartClusterNr;
 
   // Attempt to open input file
-  ff.open (pcFilename, ios::in | ios::binary | ios::nocreate);
+  ff.open (pcFilename, std::ios::in | std::ios::binary);
   if (!ff)
   {
-    cout << "Error: could not open input file " << pcFilename << "." << endl;
+    std::cout << "Error: could not open input file " << pcFilename << "." << std::endl;
     return (false);
   }
 
@@ -328,7 +328,7 @@ bool CImage::addFile (char *pcFilename)
   // Find out if there's enough space in the image's root directory.
   if (pRootDir->freesize() == 0)
   {
-    cout << "Error: root directory is full." << endl;
+    std::cout << "Error: root directory is full." << std::endl;
     return (false);
   }
 
@@ -339,12 +339,12 @@ bool CImage::addFile (char *pcFilename)
   if ((ff.tellp() % SECTSIZE) != 0) iFileSizeSectors++;
   ff.seekg (0, ios::beg);
 
-  cout << "Copying file " << pcFilename << " (" << iFileSizeSectors << " clusters)." << endl;
+  std::cout << "Copying file " << pcFilename << " (" << iFileSizeSectors << " clusters)." << std::endl;
 
   // Determine if there are enough free clusters in the FAT table
   if (FAT()->freesize() < iFileSizeSectors)
   {
-    cout << "Error: Not enough free space in image." << endl;
+    std::cout << "Error: Not enough free space in image." << std::endl;
     return (false);
   }
 
@@ -363,7 +363,7 @@ bool CImage::addFile (char *pcFilename)
     iClusterNr = FAT()->firstfree();
 
     // Copy cluster onto image
-    fStream.seekg ((FATSIZE * 2 + BOOTSIZE + ROOTDIRSIZE + (iClusterNr - 2)) * SECTSIZE, ios::beg);
+    fStream.seekg ((FATSIZE * 2 + BOOTSIZE + ROOTDIRSIZE + (iClusterNr - 2)) * SECTSIZE, std::ios::beg);
     for (i=0; i<SECTSIZE; i++)
     {
       fStream.put (acSector[i]);
@@ -382,7 +382,7 @@ bool CImage::addFile (char *pcFilename)
 
   if (!pRootDir->put (pcFilename, iStartClusterNr, iFileSizeBytes))
   {
-    cout << "Error: could not write entry in root directory." << endl;
+    std::cout << "Error: could not write entry in root directory." << std::endl;
     return (false);
   }
 
@@ -481,7 +481,7 @@ void CImage::dir()
     // see if entry is empty
     if (pEntry->data.abName[0] == '\0') continue;
     // display file name
-    cout << pEntry->tostring() << endl;
+    std::cout << pEntry->tostring() << std::endl;
     // delete entry created by RootDir()->get()
     delete pEntry;
   }

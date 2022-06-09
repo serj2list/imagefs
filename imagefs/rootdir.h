@@ -25,7 +25,7 @@
 
 #include "defs.h"
 #include "tools.h"
-#include <fstream.h>
+#include <fstream>
 #include "rootdirentry.h"
 
 class CRootDir
