@@ -1,19 +1,11 @@
-dnl without this order in this file, autoconf will not work!
-dnl the argument is a source file out of your sources. But
-dnl acinclude.m4 makes the job for all programs ;-)
 AC_INIT([imagefs],[0.0])
 
-dnl enable the following if you want to use autoconf/automake 
-dnl framework from a certain directory (like kde-common)
-dnl AC_CONFIG_AUX_DIR(admin)
 
 
 AM_INIT_AUTOMAKE
 
 
-dnl without this order in this file, automake will be confused!
-dnl 
-dnl AM_CONFIG_HEADER(config.h)
+AM_CONFIG_HEADER(config.h)
 
 dnl checks for programs.
 dnl first check for c/c++ compilers
@@ -25,7 +17,7 @@ dnl AC_ENABLE_SHARED(yes)
 
 dnl set the following to yes, if you want to create static
 dnl libtool-libraries
-dnl `AC_ENABLE_STATIC(no)
+dnl AC_ENABLE_STATIC(no)
 
 dnl create a working libtool-script
 KDE_PROG_LIBTOOL
